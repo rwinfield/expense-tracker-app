@@ -1,17 +1,43 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 export default class FamilyExpensesList extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            expenses: []
+        };
+    }
+
+    componentDidMount() {
+        axios.get('http://localhost:5050/expenses/')
+            .then(response => {
+                if (response.data.length > 0) {
+                    this.setState({expenses: response.data.map(expense => expense)});
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+
     render() {
         return (
-            // <div style={{ whiteSpace: "pre"}} className="content">
-            //     <p style={{ whiteSpace: "pre"}}>You are on the family-expenses-list-component!
-            //     <br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>e<br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>e<br></br><br></br><br></br>v
-            //     hello
-            //     <br></br><br></br><br></br><br></br><br></br>e<br></br><br></br>a<br></br>g<br></br><br></br>f<br></br><br></br><br></br>e<br></br>hello again
-            //     </p>
-            // </div>
             <div className="content">
-                <div className="expense-tile">
+                {this.state.expenses.map(expense => (
+                    <div className="expense-tile" key={expense._id}>
+                        <div className="expense-details" >
+                            <span className="category">{expense.amount['$numberDecimal'].toLocaleString()}</span>
+                            <p>{expense.transaction}</p>
+                        </div>
+                        <span className="date">{new Date(expense.date).toLocaleDateString()}</span>
+                        <div className="user-name">{expense.name}</div>
+                    </div>
+                ))}
+
+
+                {/* <div className="expense-tile">
                     <div className="expense-details">
                         <span className="category">Income</span>
                         <p>Paycheck</p>
@@ -122,7 +148,7 @@ export default class FamilyExpensesList extends Component {
                     </div>
                     <span className="amount negative-amount">-$75</span>
                     <div className="user-name">Sameen</div>
-                </div>
+                </div> */}
             </div>
 
 

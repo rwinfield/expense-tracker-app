@@ -209,8 +209,8 @@ form button:hover {
 .sidebar hr {
     border: none;
     border-top: 3px solid white;
-    width: 95%; /* Adjust the width as needed */
-    margin: 15px 5px; /* Adjust the margin as needed */
+    width: 95%;
+    margin: 15px 5px;
     margin-top: 5px;
     margin-left: -2px;
 }
