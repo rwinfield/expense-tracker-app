@@ -10,7 +10,7 @@ export default class Sidebar extends Component {
                         <Link to="/" className="nav-link sidebar-button-style" style={{ fontSize: "20px" }}>
                             <b>Family</b>
                         </Link>
-                        <Link to="/add_user" className="nav-link sidebar-button-style">
+                        <Link to="/add_family_member" className="nav-link sidebar-button-style">
                             <button className="nav-link" style={{ fontSize: '32px', lineHeight: 1}}><b>+</b></button>
                         </Link>
                     </div>

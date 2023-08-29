@@ -10,7 +10,7 @@ import FamilyExpensesList from "./components/family-expenses-list.component.js";
 import UserExpensesList from "./components/user-expenses-list.component.js";
 import EditExpense from "./components/edit-expense.component.js";
 import AddExpense from "./components/add-expense.component.js";
-import AddUser from "./components/add-user.component.js";
+import AddFamilyMember from "./components/add-family-member.component.js";
 
 // function TransactionEntry({ transaction, description, price, date }) {
 //   // Determine the CSS class for the price color based on whether it's positive or negative
@@ -52,7 +52,7 @@ function App() {
                 <Route path="/user/:id" element={<UserExpensesList />} />
                 <Route path="/edit/:id" element={<EditExpense />} />
                 <Route path="/add_expense" element={<AddExpense />} />
-                <Route path="/add_user" element={<AddUser />} />
+                <Route path="/add_family_member" element={<AddFamilyMember />} />
                 </Routes>
             </div>
         </BrowserRouter>

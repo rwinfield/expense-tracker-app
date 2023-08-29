@@ -20,14 +20,14 @@ router.route('/').get((req, res) => {
 });
 
 router.route('/add').post((req, res) => {
-    const username = req.body.username;
+    const name = req.body.name;
     const transaction = req.body.transaction;    
     const amount = Number(req.body.amount);    
     const date = Date.parse(req.body.date);
     const description = req.body.description;
     
     const newExpense = new Expense ({
-        username,
+        name,
         transaction,
         amount,
         date,
@@ -54,7 +54,7 @@ router.route('/:id').delete((req, res) => {
 router.route('/update/:id').post((req, res) => {
     Expense.findById(req.params.id)
         .then(expense => {
-            expense.username = req.body.username;
+            expense.name = req.body.name;
             expense.transaction = req.body.transaction;    
             expense.amount = Number(req.body.amount);    
             expense.date = Date.parse(req.body.date);
