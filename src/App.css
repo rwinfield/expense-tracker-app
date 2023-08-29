@@ -222,3 +222,23 @@ form button:hover {
     overflow: hidden !important;
     text-overflow: ellipsis;
 }
+
+.select-dropdown {
+    background-color: #333; /* Background color of the dropdown */
+    border: 1px solid #333; /* Border color */
+    padding: 8px; /* Adjust padding as needed */
+    width: 50%; /* Set width to fill the container */
+    border-radius: 4px; /* Optional: Add some border-radius */
+    color: white;
+}
+
+.dropdown-container {
+    position: relative;
+}
+
+.dropdown-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+}

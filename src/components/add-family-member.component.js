@@ -29,7 +29,7 @@ export default class AddUser extends Component {
 
         console.log(member);
 
-        axios.post('http://localhost:5000/users/add', member)
+        axios.post('http://localhost:5050/users/add', member)
             .then(res => console.log(res.data));
 
         window.location = '/';
@@ -37,9 +37,23 @@ export default class AddUser extends Component {
 
     render() {
         return (
-            <div>
-                <p>You are on the add-user-component!</p>
-            </div>
+          <div className='content'>
+            <h3>Create New Family Member</h3>
+            <form onSubmit={this.onSubmit}>
+              <div className="form-group"> 
+                <label>Family Member: </label>
+                <input  type="text"
+                    required
+                    className="form-control"
+                    value={this.state.name}
+                    onChange={this.onChangeName}
+                    />
+              </div>
+              <div className="form-group">
+                <input type="submit" value="Add family member" className="btn btn-primary" />
+              </div>
+            </form>
+          </div>
         )
     }
 }
