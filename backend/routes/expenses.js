@@ -14,7 +14,7 @@ router.route('/').get((req, res) => {
     }
 
     Expense.find()
-        .sort(sortCriteria) // Apply the sorting criteria
+        .sort(sortCriteria)
         .then(expenses => res.json(expenses))
         .catch(err => res.status(400).json('Error: ' + err));
 });
