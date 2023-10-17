@@ -24,6 +24,12 @@ body {
     gap: 20px;
 }
 
+.titles {
+    margin-left: var(--sidebar-width);
+    padding-left: 20px;
+    padding-top: 10px;
+}
+
 .expense-tile {
     background: linear-gradient(135deg, #333333, #222222);
     padding: 20px;
@@ -242,3 +248,98 @@ form button:hover {
     right: 10px;
     transform: translateY(-50%);
 }
+
+.expense-color {
+    color: #ff9800;
+    font-weight: bold;
+}
+
+.dollar-sign-form {
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 17px;
+    color: var(--bs-body-color);
+}
+
+.back-button {
+    color: #ffffff;
+    border: 2px white;
+    border-style: solid;
+    border-radius: 10px;
+    padding: 2px 4px;
+    margin-left: calc(20px + var(--sidebar-width));
+    text-transform: uppercase;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.321);
+    background-color: #929292;
+    display: inline-block;
+}
+
+.back-button:hover {
+    background-color: #bbbbbb;
+    transform: scale(1.05);
+}
+
+.edit-button {
+    color: #ffffff;
+    border: 2px white;
+    border-style: solid;
+    border-radius: 10px;
+    padding: 2px 4px;
+    margin-left: calc(20px + var(--sidebar-width));
+    text-transform: uppercase;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.321);
+    background-color: #6d8fff;
+    display: inline-block;
+}
+
+.edit-button:hover {
+    background-color: #a4b7f6;
+    transform: scale(1.05);
+}
+
+.delete-button {
+    color: #ffffff;
+    border: 2px white;
+    border-style: solid;
+    border-radius: 10px;
+    padding: 2px 4px;
+    margin-left: calc(20px + var(--sidebar-width));
+    text-transform: uppercase;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.321);
+    background-color: #ff6d6d;
+    display: inline-block;
+}
+
+.delete-button:hover {
+    background-color: #f6a4a4;
+    transform: scale(1.05);
+}
+
+.confirmation-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .confirmation-modal {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+  }

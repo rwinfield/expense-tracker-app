@@ -11,16 +11,23 @@ export default class Sidebar extends Component {
         };
     }
 
-    componentDidMount() {
+    fetchUserData() {
         axios.get('http://localhost:5050/users/')
             .then(response => {
                 if (response.data.length > 0) {
-                    this.setState({members: response.data.map(member => member.name)});
+                    this.setState({members: response.data.map(member => member)});
                 }
             })
             .catch((error) => {
                 console.log(error);
             })
+    }
+
+    componentDidMount() {
+        this.fetchUserData();
+    }
+
+    componentDidUpdate() {
     }
 
     render() {
@@ -37,8 +44,8 @@ export default class Sidebar extends Component {
                     </div>
                     <hr />
 
-                    {this.state.members.map(function(name) {
-                        return <Link to="user/:id" className="nav-link sidebar-button-style text-overflow">{name}</Link>
+                    {this.state.members.map(function(member) {
+                        return <a key={member._id} href={`/expenses/user/${member._id}`} className="nav-link sidebar-button-style text-overflow">{member.name}</a>
                     })}
 
 

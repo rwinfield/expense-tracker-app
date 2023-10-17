@@ -1,20 +1,58 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom'
+import { dollarSign } from '../utils';
 
-export default class FamilyExpensesList extends Component {
+function withRouter(Component) {
+    function ComponentWithRouterProp(props) {
+      let location = useLocation();
+      let navigate = useNavigate();
+      let params = useParams();
+      return (
+        <Component
+          {...props}
+          router={{ location, navigate, params }}
+        />
+      );
+    }
+  
+    return ComponentWithRouterProp;
+}
+
+class FamilyExpensesList extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            expenses: []
+            expenses: [],
+            totalExpenses: 0
         };
     }
-
-    componentDidMount() {
-        axios.get('http://localhost:5050/expenses/')
+    
+    fetchData() {
+        const params = new URLSearchParams(document.location.search);
+        let query = ''
+        try {
+            query = "?sort=" + params.get("sort").toLocaleString();
+        }
+        catch {
+            query = '';
+        }
+        axios.get('http://localhost:5050/expenses/' + query)
             .then(response => {
                 if (response.data.length > 0) {
-                    this.setState({expenses: response.data.map(expense => expense)});
+                    let totalSum = 0;
+                    response.data.forEach(expense => {
+                        const expenseAmount = Number(expense.amount['$numberDecimal'].toLocaleString())
+                        totalSum += expenseAmount;
+
+                    this.setState({
+                        expenses: response.data.map(expense => expense),
+                        totalExpenses: totalSum
+                        })
+                    })
+                            
                 }
             })
             .catch((error) => {
@@ -22,136 +60,45 @@ export default class FamilyExpensesList extends Component {
             })
     }
 
+    componentDidMount() {
+        this.fetchData();
+    }
+
+    componentDidUpdate(prevProps) {
+        const { location } = this.props.router;
+
+        if (location.search !== prevProps.router.location.search) {
+            this.fetchData();
+        }
+    }
+
     render() {
         return (
-            <div className="content">
-                {this.state.expenses.map(expense => (
-                    <div className="expense-tile" key={expense._id}>
-                        <div className="expense-details" >
-                            <span className="category">{expense.amount['$numberDecimal'].toLocaleString()}</span>
-                            <p>{expense.transaction}</p>
+            <div>
+                <h3 className="titles">Total expenses: {dollarSign(this.state.totalExpenses.toFixed(2))}</h3>
+                <div className="content">
+                    {this.state.expenses.map((expense, i, array) => (
+                        <Link as={Link} to={{pathname: `/expense/${expense._id}`}} style={{textDecoration: 'none'}}>
+                        <div className="expense-tile" key={expense._id} style={{display:'flex'}}>
+                            <div className="expense-details" >
+                                <span className="category">{dollarSign(expense.amount['$numberDecimal'].toLocaleString())}</span>
+                                <p>{expense.transaction}</p>
+                            </div>
+                            <span className="date">{new Date(expense.date).toLocaleDateString()}</span>
+                            <span style={{ textAlign: 'right', fontSize: '14px', marginBottom:'-30px', color: 'gray'}}>
+                                {i+1}/{array.length}
+                            </span>
+                            <div className="user-name">{expense.name}</div>
                         </div>
-                        <span className="date">{new Date(expense.date).toLocaleDateString()}</span>
-                        <div className="user-name">{expense.name}</div>
-                    </div>
-                ))}
-
-
-                {/* <div className="expense-tile">
-                    <div className="expense-details">
-                        <span className="category">Income</span>
-                        <p>Paycheck</p>
-                    </div>
-                    <span className="amount positive-amount">+$1000</span>
-                    <div className="user-name">Robbie</div>
+                        </Link>
+                    ))}
                 </div>
-                <div className="expense-tile">
-                    <div className="expense-details">
-                        <span className="category">Food</span>
-                        <p>Lunch at a local cafe</p>
-                    </div>
-                    <span className="amount negative-amount">-$15</span>
-                    <div className="user-name">Sameen</div>
-                </div>
-                <div className="expense-tile">
-                    <div className="expense-details">
-                        <span className="category">Transportation</span>
-                        <p>Purchased a metro pass</p>
-                    </div>
-                    <span className="amount negative-amount">-$30</span>
-                    <div className="user-name">John</div>
-                </div>
-                <div className="expense-tile">
-                    <div className="expense-details">
-                        <span className="category">Entertainment</span>
-                        <p>Movie night with friends</p>
-                    </div>
-                    <span className="amount negative-amount">-$20</span>
-                    <div className="user-name">Robbie</div>
-                </div>
-                <div className="expense-tile">
-                    <div className="expense-details">
-                        <span className="category">Food</span>
-                        <p>Dinner at a new restaurant</p>
-                    </div>
-                    <span className="amount negative-amount">-$40</span>
-                    <div className="user-name">Sameen</div>
-                </div>
-                <div className="expense-tile">
-                    <div className="expense-details">
-                        <span className="category">Shopping</span>
-                        <p>Bought new clothes</p>
-                    </div>
-                    <span className="amount negative-amount">-$100</span>
-                    <div className="user-name">John</div>
-                </div>
-                <div className="expense-tile">
-                    <div className="expense-details">
-                        <span className="category">Income</span>
-                        <p>Birthday money</p>
-                    </div>
-                    <span className="amount positive-amount">+$50</span>
-                    <div className="user-name">Robbie</div>
-                </div>
-                <div className="expense-tile">
-                    <div className="expense-details">
-                        <span className="category">Food</span>
-                        <p>Order pizza for friends</p>
-                    </div>
-                    <span className="amount negative-amount">-$25</span>
-                    <div className="user-name">Sameen</div>
-                </div>
-                <div className="expense-tile">
-                    <div className="expense-details">
-                        <span className="category">Transportation</span>
-                        <p>Filled up gas tank</p>
-                    </div>
-                    <span className="amount negative-amount">-$50</span>
-                    <div className="user-name">John</div>
-                </div>
-                <div className="expense-tile">
-                    <div className="expense-details">
-                        <span className="category">Shopping</span>
-                        <p>Bought electronics</p>
-                    </div>
-                    <span className="amount negative-amount">-$200</span>
-                    <div className="user-name">Robbie</div>
-                </div>
-                <div className="expense-tile">
-                    <div className="expense-details">
-                        <span className="category">Food</span>
-                        <p>Expensive dinner at a restaurant</p>
-                    </div>
-                    <span className="amount negative-amount">-$75</span>
-                    <div className="user-name">Sameen</div>
-                </div>
-                <div className="expense-tile">
-                    <div className="expense-details">
-                        <span className="category">Transportation</span>
-                        <p>Filled up gas tank</p>
-                    </div>
-                    <span className="amount negative-amount">-$50</span>
-                    <div className="user-name">John</div>
-                </div>
-                <div className="expense-tile">
-                    <div className="expense-details">
-                        <span className="category">Shopping</span>
-                        <p>Bought electronics</p>
-                    </div>
-                    <span className="amount negative-amount">-$200</span>
-                    <div className="user-name">Robbie</div>
-                </div>
-                <div className="expense-tile">
-                    <div className="expense-details">
-                        <span className="category">Food</span>
-                        <p>Expensive dinner at a restaurant</p>
-                    </div>
-                    <span className="amount negative-amount">-$75</span>
-                    <div className="user-name">Sameen</div>
-                </div> */}
             </div>
 
 
         )
     }
 }
+
+export default withRouter(FamilyExpensesList)
+
